@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-darkBg: #0b0f14;
+  --color-glass: rgba(255, 255, 255, 0.1);
+  --color-glassDark: rgba(11, 15, 20, 0.7);
+  --color-accent: #3b82f6;
+
+  --font-sans: Inter, sans-serif;
+
+  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-gray-900 transition-colors duration-300;
+  }
+
+  /* Dark mode overrides - Tailwind v4 uses generic dark variant by default based on media query, 
+     but we want class strategy. 
+     In v4, dark mode is enabled by 'dark' variant which works with 'dark' class if configured? 
+     Actually v4 detects '.dark' class automatically if present on html/body? 
+     Let's manually add the selector strategy just in case or rely on default behavior 
+     Wait, v4 default is media query. To use class, we need: */
+}
+
+/* Custom utility for manual dark mode toggle if v4 doesn't support class out of box without config */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .glass {
+    @apply bg-glass backdrop-blur-md border border-white/10 shadow-lg;
+  }
+
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl hover:shadow-glow transition-all duration-300;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent;
+  }
+
+  /* Dark mode specific overrides for body if @apply doesn't pick up custom variant in base layer correctly */
+  .dark body {
+    @apply bg-darkBg text-white;
+  }
+}
