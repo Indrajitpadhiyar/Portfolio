@@ -1,16 +1,16 @@
 import React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { FaReact, FaNodeJs, FaPython, FaGitAlt } from "react-icons/fa";
+import { FaReact, FaNodeJs, FaPython, FaGitAlt, FaAndroid } from "react-icons/fa";
 import { SiTailwindcss, SiTypescript, SiMongodb, SiNextdotjs } from "react-icons/si";
 
 const skills = [
     { name: "React", icon: <FaReact />, level: 90, color: "#61DAFB" },
-    { name: "Next.js", icon: <SiNextdotjs />, level: 85, color: "#ffffff" },
+    { name: "React Native", icon: <FaAndroid />, level: 20, color: "#2fe72fff" },
     { name: "TypeScript", icon: <SiTypescript />, level: 80, color: "#3178C6" },
     { name: "Tailwind CSS", icon: <SiTailwindcss />, level: 95, color: "#38B2AC" },
-    { name: "Node.js", icon: <FaNodeJs />, level: 75, color: "#339933" },
-    { name: "MongoDB", icon: <SiMongodb />, level: 70, color: "#47A248" },
-    { name: "Python", icon: <FaPython />, level: 60, color: "#3776AB" },
+    { name: "Node.js", icon: <FaNodeJs />, level: 85, color: "#339933" },
+    { name: "MongoDB", icon: <SiMongodb />, level: 80, color: "#47A248" },
+    { name: "Python", icon: <FaPython />, level: 40, color: "#3776AB" },
     { name: "Git", icon: <FaGitAlt />, level: 85, color: "#F05032" },
 ];
 

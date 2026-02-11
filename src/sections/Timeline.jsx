@@ -3,22 +3,22 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const milestones = [
     {
+        year: "2023",
+        title: "Learninig face",
+        description: "starting from the collage learn Html , JavaScript , CSS",
+    },
+    {
         year: "2024",
-        title: "Senior Frontend Engineer",
-        description: "Leading the frontend team at TechCorp, building scalable React applications.",
-    },
-    {
-        year: "2022",
-        title: "Full Stack Developer",
-        description: "Developed e-commerce platforms using MERN stack for global clients.",
-    },
-    {
-        year: "2020",
         title: "Frontend Developer",
         description: "Started career specializing in UI/UX implementation and animation.",
     },
     {
-        year: "2018",
+        year: "2025",
+        title: "Full-Stack Developer",
+        description: "Developed e-commerce platforms using MERN stack for Local level shops",
+    },
+    {
+        year: "2026",
         title: "CS Graduate",
         description: "Graduated with honors in Computer Science & Engineering.",
     }

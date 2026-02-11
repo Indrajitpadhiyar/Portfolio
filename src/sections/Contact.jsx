@@ -12,7 +12,7 @@ const Contact = () => {
                     className="glass-card p-8 md:p-12 relative z-10"
                 >
                     <div className="text-center mb-10">
-                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Let's Work Together</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold text-gray-600 mb-4">Let's Work Together</h2>
                         <p className="text-gray-400">
                             Have a project in mind? Fill out the form below or send me an email.
                         </p>
