@@ -41,12 +41,12 @@ const About = () => {
                         <div className="relative w-72 h-72 md:w-96 md:h-96">
                             <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full blur-2xl opacity-20 animate-pulse"></div>
                             <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer">
-                                {/* Placeholder for Profile Image */}
-                                <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center border border-white/10">
-                                    <span className="text-gray-500 text-xl font-mono">
-                                        <img src="apple.jpg" alt="" />
-                                    </span>
-                                </div>
+                                {/* Profile Image */}
+                                <img 
+                                    src="/indrajit.png" 
+                                    alt="Indrajit" 
+                                    className="w-full h-full object-cover object-center border border-white/10"
+                                />
                             </div>
                         </div>
                     </motion.div>
