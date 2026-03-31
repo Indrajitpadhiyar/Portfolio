@@ -55,7 +55,7 @@ const Hero = () => {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--muted)] sm:text-xl">
-            I am Indrajit, a frontend developer shaping immersive interfaces for
+            I am Indrajit, a fullstack developer shaping immersive interfaces for
             brands, products, and local businesses. I combine sharp visual rhythm,
             clean implementation, and motion that gives each section a purpose.
           </p>
