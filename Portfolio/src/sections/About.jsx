@@ -1,63 +1,97 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
+
+const chapters = [
+  {
+    index: "01",
+    title: "From static pages to crafted experiences",
+    body: "I started by learning the fundamentals in college, then moved quickly toward interactive UI where layout, animation, and usability all need to work together.",
+  },
+  {
+    index: "02",
+    title: "Design-aware frontend thinking",
+    body: "My best work happens where visual taste meets engineering discipline. I enjoy building interfaces that feel premium without becoming confusing or heavy.",
+  },
+  {
+    index: "03",
+    title: "Shipping for real businesses",
+    body: "I have already built storefront and product experiences for local businesses, which taught me to balance polish, speed, trust, and conversion.",
+  },
+];
+
+const principles = [
+  "Every section should have a narrative job.",
+  "Animation should guide attention, not distract from content.",
+  "Responsive design is part of the concept, not the afterthought.",
+];
 
 const About = () => {
-    return (
-        <section className="relative w-full py-20 px-6 overflow-hidden bg-gray-50 dark:bg-darkBg transition-colors duration-300">
-            <div className="container mx-auto max-w-6xl relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8 }}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
-                >
-                    {/* Text Content */}
-                    <div className="order-2 md:order-1 space-y-6">
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">
-                            Behind the <span className="text-blue-500">Code</span>
-                        </h2>
-                        <div className="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-blue-500/10 blur-3xl -z-10 group-hover:bg-blue-500/20 transition-all duration-500"></div>
-                            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                                I'm a passionate developer who bridges the gap between design and technology.
-                                With a keen eye for detail and a love for clean, efficient code, I build
-                                web applications that not only look beautiful but perform flawlessly.
-                            </p>
-                            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                                When I'm not coding, you can find me exploring new tech stacks, optimizing
-                                performance, or refining my digital workspace.
-                            </p>
-                        </div>
-                    </div>
+  return (
+    <div className="story-section px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.78fr_1.22fr]">
+        <Motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7 }}
+          className="lg:sticky lg:top-24 lg:self-start"
+        >
+          <span className="story-chip">Chapter 02 / Story</span>
+          <h2 className="mt-6 max-w-md text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl">
+            I build web stories that feel considered from first scroll to final click.
+          </h2>
+          <p className="mt-5 max-w-lg text-lg leading-8 text-[color:var(--muted)]">
+            The goal is not more effects. The goal is better rhythm, clearer focus,
+            and a visual identity strong enough to be remembered.
+          </p>
 
-                    {/* Image / Visual */}
-                    <motion.div
-                        className="order-1 md:order-2 flex justify-center"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                    >
-                        <div className="relative w-72 h-72 md:w-96 md:h-96">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full blur-2xl opacity-20 animate-pulse"></div>
-                            <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer">
-                                {/* Profile Image */}
-                                <img 
-                                    src="/indrajit.png" 
-                                    alt="Indrajit" 
-                                    className="w-full h-full object-cover object-center border border-white/10"
-                                />
-                            </div>
-                        </div>
-                    </motion.div>
-                </motion.div>
+          <div className="story-panel mt-10 p-6">
+            <p className="text-[0.7rem] uppercase tracking-[0.34em] text-[color:var(--muted)]">
+              Principles
+            </p>
+            <div className="mt-5 space-y-4">
+              {principles.map((item) => (
+                <div key={item} className="flex gap-3">
+                  <span className="mt-2 h-2.5 w-2.5 rounded-full bg-[color:var(--accent)]" />
+                  <p className="text-base leading-7 text-[color:var(--text)]/82">
+                    {item}
+                  </p>
+                </div>
+              ))}
             </div>
+          </div>
+        </Motion.div>
 
-            {/* Background Decor */}
-            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-purple-500/5 blur-[100px] rounded-full pointer-events-none"></div>
-        </section>
-    );
+        <div className="space-y-5">
+          {chapters.map((chapter, index) => (
+            <Motion.article
+              key={chapter.index}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.65, delay: index * 0.08 }}
+              className="story-panel relative overflow-hidden p-7 sm:p-9"
+            >
+              <div className="absolute inset-y-0 left-0 w-1 bg-[linear-gradient(180deg,var(--accent),transparent)]" />
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <span className="text-sm uppercase tracking-[0.34em] text-[color:var(--accent)]">
+                  {chapter.index}
+                </span>
+                <div className="max-w-2xl">
+                  <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[color:var(--text)] sm:text-3xl">
+                    {chapter.title}
+                  </h3>
+                  <p className="mt-4 text-base leading-8 text-[color:var(--muted)] sm:text-lg">
+                    {chapter.body}
+                  </p>
+                </div>
+              </div>
+            </Motion.article>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default About;

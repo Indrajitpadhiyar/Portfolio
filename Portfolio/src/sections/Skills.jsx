@@ -1,113 +1,148 @@
 import React from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { FaReact, FaNodeJs, FaPython, FaGitAlt, FaAndroid } from "react-icons/fa";
-import { SiTailwindcss, SiTypescript, SiMongodb, SiNextdotjs } from "react-icons/si";
+import { motion as Motion } from "framer-motion";
+import { FaNodeJs, FaReact } from "react-icons/fa";
+import { SiFramer, SiGithub, SiMongodb, SiTailwindcss, SiVite } from "react-icons/si";
 
 const skills = [
-    { name: "React", icon: <FaReact />, level: 90, color: "#61DAFB" },
-    { name: "TypeScript", icon: <SiTypescript />, level: 80, color: "#3178C6" },
-    { name: "TailwindCSS", icon: <SiTailwindcss />, level: 95, color: "#38B2AC" },
-    { name: "Node.js", icon: <FaNodeJs />, level: 85, color: "#339933" },
-    { name: "MongoDB", icon: <SiMongodb />, level: 80, color: "#47A248" },
-    { name: "Python", icon: <FaPython />, level: 40, color: "#3776AB" },
+  {
+    name: "React",
+    description: "Component systems, modern rendering flows, and polished UI architecture.",
+    icon: FaReact,
+    level: "Advanced",
+  },
+  {
+    name: "Tailwind",
+    description: "Fast styling with scalable tokens, custom surfaces, and responsive refinement.",
+    icon: SiTailwindcss,
+    level: "Advanced",
+  },
+  {
+    name: "Framer Motion",
+    description: "Narrative transitions, micro interactions, and scroll-linked reveals.",
+    icon: SiFramer,
+    level: "Strong",
+  },
+  {
+    name: "Node",
+    description: "Backend APIs and supporting services for full-stack project delivery.",
+    icon: FaNodeJs,
+    level: "Strong",
+  },
+  {
+    name: "MongoDB",
+    description: "Practical data models for product catalogs, users, and content driven apps.",
+    icon: SiMongodb,
+    level: "Working",
+  },
+  {
+    name: "Git + Vite",
+    description: "Rapid iteration, clean version control, and fast front-end tooling.",
+    icon: SiGithub,
+    level: "Daily",
+  },
 ];
 
-const TiltCard = ({ children }) => {
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-
-    const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 150, damping: 20 });
-    const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 150, damping: 20 });
-
-    function handleMouseMove({ currentTarget, clientX, clientY }) {
-        const { left, top, width, height } = currentTarget.getBoundingClientRect();
-        const relativeX = (clientX - left) / width - 0.5;
-        const relativeY = (clientY - top) / height - 0.5;
-
-        x.set(relativeX);
-        y.set(relativeY);
-    }
-
-    function handleMouseLeave() {
-        x.set(0);
-        y.set(0);
-    }
-
-    return (
-        <motion.div
-            style={{
-                transformStyle: "preserve-3d",
-                rotateX,
-                rotateY,
-            }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="relative w-full h-full"
-        >
-            <div style={{ transform: "translateZ(20px)" }} className="w-full h-full">
-                {children}
-            </div>
-        </motion.div>
-    );
-};
-
-const SkillCard = ({ skill }) => {
-    return (
-        <div className="perspective-1000 w-full h-40">
-            <TiltCard>
-                <div className="glass-card w-full h-full flex flex-col items-center justify-center p-6 relative overflow-hidden group hover:shadow-2xl transition-all duration-300">
-                    <div className="text-5xl mb-3 transition-transform duration-300 group-hover:scale-110 drop-shadow-lg" style={{ color: skill.color }}>
-                        {skill.icon}
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{skill.name}</h3>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden mt-auto">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.5, ease: "easeOut" }}
-                            className="h-full rounded-full"
-                            style={{ backgroundColor: skill.color }}
-                        />
-                    </div>
-                    {/* Glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                </div>
-            </TiltCard>
-        </div>
-    );
-};
+const lanes = [
+  {
+    title: "Motion Systems",
+    copy: "Page pacing, focus transitions, reveal choreography, and section-to-section continuity.",
+  },
+  {
+    title: "Responsive UI",
+    copy: "Layouts that keep their character across phone, tablet, laptop, and wide screen.",
+  },
+  {
+    title: "Product Thinking",
+    copy: "Balancing aesthetics, performance, and trust so the design still works for users.",
+  },
+];
 
 const Skills = () => {
-    return (
-        <section className="py-20 px-6 relative z-10 overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
+  return (
+    <div className="story-section px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+      <div className="mx-auto max-w-7xl">
+        <Motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl"
+        >
+          <span className="story-chip">Chapter 03 / Stack</span>
+          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl">
+            Tools are only useful when they create clarity, speed, and style together.
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
+            My workflow is centered on fast frontend iteration with animation,
+            practical full-stack support, and careful visual tuning.
+          </p>
+        </Motion.div>
 
-            <div className="container mx-auto max-w-6xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
+        <div className="mt-12 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {skills.map((skill, index) => {
+              const Icon = skill.icon;
+
+              return (
+                <Motion.article
+                  key={skill.name}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.55, delay: index * 0.05 }}
+                  className="story-panel group p-6"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800 dark:text-white">
-                        Tech <span className="text-blue-500">Stack</span>
-                    </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                        My arsenal of tools and technologies for building world-class web applications.
-                    </p>
-                </motion.div>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-soft)] text-xl text-[color:var(--accent)]">
+                      <Icon />
+                    </span>
+                    <span className="text-[0.65rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
+                      {skill.level}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[color:var(--text)]">
+                    {skill.name}
+                  </h3>
+                  <p className="mt-3 text-base leading-7 text-[color:var(--muted)]">
+                    {skill.description}
+                  </p>
+                </Motion.article>
+              );
+            })}
+          </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
-                    {skills.map((skill, index) => (
-                        <SkillCard key={index} skill={skill} />
-                    ))}
-                </div>
+          <div className="story-panel p-7 sm:p-8">
+            <div className="flex items-center justify-between">
+              <p className="text-[0.7rem] uppercase tracking-[0.34em] text-[color:var(--muted)]">
+                Working lanes
+              </p>
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] text-[color:var(--accent)]">
+                <SiVite />
+              </span>
             </div>
-        </section>
-    );
+
+            <div className="mt-8 space-y-6">
+              {lanes.map((lane, index) => (
+                <div key={lane.title} className="relative pl-7">
+                  <span className="absolute left-0 top-0 h-full w-px bg-[linear-gradient(180deg,var(--accent),transparent)]" />
+                  <span className="absolute left-[-5px] top-2 h-2.5 w-2.5 rounded-full bg-[color:var(--accent)]" />
+                  <p className="text-sm uppercase tracking-[0.24em] text-[color:var(--muted)]">
+                    0{index + 1}
+                  </p>
+                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[color:var(--text)]">
+                    {lane.title}
+                  </h3>
+                  <p className="mt-3 text-base leading-7 text-[color:var(--muted)]">
+                    {lane.copy}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Skills;

@@ -1,97 +1,99 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion as Motion, useScroll, useTransform } from "framer-motion";
 
 const milestones = [
-    {
-        year: "2023",
-        title: "Learninig face",
-        description: "starting from the collage learn Html , JavaScript , CSS",
-    },
-    {
-        year: "2024",
-        title: "Frontend Developer",
-        description: "Started career specializing in UI/UX implementation and animation.",
-    },
-    {
-        year: "2025",
-        title: "Full-Stack Developer",
-        description: "Developed e-commerce platforms using MERN stack for Local level shops",
-    },
-    {
-        year: "2026",
-        title: "CS Graduate",
-        description: "Graduated with honors in Computer Science & Engineering.",
-    }
+  {
+    year: "2023",
+    title: "Started with the frontend basics",
+    description: "Learned HTML, CSS, and JavaScript in college and built the first foundation for web work.",
+  },
+  {
+    year: "2024",
+    title: "Moved into interface building",
+    description: "Focused on turning design ideas into clean, responsive interfaces with stronger visual polish.",
+  },
+  {
+    year: "2025",
+    title: "Built projects for local business needs",
+    description: "Worked on commerce-oriented experiences and learned how real product priorities shape the UI.",
+  },
+  {
+    year: "2026",
+    title: "Sharpening the storytelling style",
+    description: "Pushing my portfolio and product work toward more cinematic presentation and stronger interaction design.",
+  },
 ];
 
-const TimelineItem = ({ item, index }) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-            className={`flex w-full mb-12 relative ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}
-        >
-            {/* Center Dot */}
-            <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500 z-10 box-content border-4 border-white dark:border-darkBg transition-colors duration-300" />
-
-            <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
-                <div className="glass-card p-6 relative hover:shadow-glow transition-shadow duration-300">
-                    <span className="text-4xl font-bold text-blue-500/10 dark:text-blue-500/20 absolute top-2 right-4 z-0 pointer-events-none select-none">{item.year}</span>
-                    <div className="relative z-10">
-                        <span className="text-blue-500 dark:text-blue-400 font-mono text-sm mb-1 block">{item.year}</span>
-                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{item.title}</h3>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">{item.description}</p>
-                    </div>
-                </div>
-            </div>
-        </motion.div>
-    );
-};
-
 const Timeline = () => {
-    const ref = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start center", "end center"]
-    });
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start center", "end center"],
+  });
 
-    const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
-    return (
-        <section className="py-20 relative overflow-hidden" ref={ref}>
-            <div className="container mx-auto max-w-5xl px-6 relative">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
-                        My <span className="text-blue-500">Journey</span>
-                    </h2>
-                </motion.div>
+  return (
+    <div ref={ref} className="story-section px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <Motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.7 }}
+          className="lg:sticky lg:top-24 lg:self-start"
+        >
+          <span className="story-chip">Chapter 05 / Journey</span>
+          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl">
+            The path is still early, but the direction is getting sharper.
+          </h2>
+          <p className="mt-5 max-w-lg text-lg leading-8 text-[color:var(--muted)]">
+            My timeline is less about titles and more about momentum: learning,
+            building, and steadily improving the quality of the experience.
+          </p>
+        </Motion.div>
 
-                <div className="relative">
-                    {/* Central Line Background */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-800 -translate-x-1/2" />
+        <div className="relative pl-8 sm:pl-10">
+          <div className="absolute bottom-0 left-2 top-0 w-px bg-[color:var(--line)] sm:left-3" />
+          <Motion.div
+            style={{ scaleY: lineScale, originY: 0 }}
+            className="absolute bottom-0 left-2 top-0 w-px bg-[linear-gradient(180deg,var(--accent),var(--accent-soft),transparent)] sm:left-3"
+          />
 
-                    {/* Scroll Progress Line */}
-                    <motion.div
-                        style={{ scaleY, originY: 0 }}
-                        className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-blue-500 -translate-x-1/2"
-                    />
+          <div className="space-y-6">
+            {milestones.map((item, index) => (
+              <Motion.article
+                key={item.year}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6, delay: index * 0.08 }}
+                className="story-panel relative p-6 sm:p-8"
+              >
+                <span className="absolute -left-[33px] top-8 inline-flex h-5 w-5 items-center justify-center rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] sm:-left-[41px]">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--accent)]" />
+                </span>
 
-                    <div className="py-10">
-                        {milestones.map((item, index) => (
-                            <TimelineItem key={index} item={item} index={index} />
-                        ))}
-                    </div>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <span className="text-sm uppercase tracking-[0.34em] text-[color:var(--accent)]">
+                    {item.year}
+                  </span>
+                  <div className="max-w-2xl">
+                    <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[color:var(--text)]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-base leading-8 text-[color:var(--muted)]">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
+              </Motion.article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Timeline;

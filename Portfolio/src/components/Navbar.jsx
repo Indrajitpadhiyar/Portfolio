@@ -1,88 +1,172 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion as Motion } from "framer-motion";
+import { FiArrowDownRight } from "react-icons/fi";
+import {
+  HiMiniSparkles,
+  HiOutlineUserCircle,
+  HiOutlineLightBulb,
+  HiOutlineFolder,
+  HiOutlineRocketLaunch,
+  HiOutlineEnvelope,
+} from "react-icons/hi2";
 
 const navLinks = [
-    { name: "Home", href: "#hero" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Journey", href: "#timeline" },
-    { name: "Contact", href: "#contact" },
+  { name: "Intro", href: "#hero", icon: HiMiniSparkles },
+  { name: "Story", href: "#about", icon: HiOutlineUserCircle },
+  { name: "Stack", href: "#skills", icon: HiOutlineLightBulb },
+  { name: "Work", href: "#projects", icon: HiOutlineFolder },
+  { name: "Path", href: "#timeline", icon: HiOutlineRocketLaunch },
+  { name: "Connect", href: "#contact", icon: HiOutlineEnvelope },
 ];
 
+const scrollToTarget = (href) => {
+  const target = document.querySelector(href);
+  if (!target) return;
+
+  if (window.__lenis) {
+    window.__lenis.scrollTo(target, {
+      offset: window.innerWidth >= 1024 ? -30 : -16,
+      duration: 1.15,
+    });
+    return;
+  }
+
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+const NavButton = ({ link, activeSection, compact = false }) => {
+  const Icon = link.icon;
+  const isActive = activeSection === link.href.slice(1);
+
+  return (
+    <button
+      type="button"
+      onClick={() => scrollToTarget(link.href)}
+      className={`group relative flex items-center gap-3 rounded-full px-4 py-3 text-left transition-all duration-300 ${
+        compact
+          ? "justify-center px-3 py-2.5"
+          : "w-full border border-transparent hover:border-[color:var(--line)]"
+      }`}
+      aria-label={link.name}
+    >
+      {isActive && (
+        <Motion.span
+          layoutId={compact ? "mobile-active-pill" : "desktop-active-pill"}
+          className="absolute inset-0 rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] shadow-[0_18px_60px_rgba(0,0,0,0.18)]"
+          transition={{ type: "spring", stiffness: 260, damping: 28 }}
+        />
+      )}
+      <span
+        className={`relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border text-base transition-colors duration-300 ${
+          isActive
+            ? "border-transparent bg-[color:var(--accent)] text-[color:var(--accent-contrast)]"
+            : "border-[color:var(--line)] bg-[color:var(--surface-soft)] text-[color:var(--text)]/70 group-hover:text-[color:var(--text)]"
+        }`}
+      >
+        <Icon />
+      </span>
+      {!compact && (
+        <span className="relative z-10 flex items-center gap-2">
+          <span className="text-sm font-medium tracking-[0.18em] uppercase text-[color:var(--text)]">
+            {link.name}
+          </span>
+          {isActive && <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent-strong)]" />}
+        </span>
+      )}
+    </button>
+  );
+};
+
 const Navbar = () => {
-    const [activeSection, setActiveSection] = useState("hero");
-    const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.querySelector(link.href))
+      .filter(Boolean);
 
-            // Determine active section based on scroll position
-            const sections = navLinks.map(link => document.querySelector(link.href));
-            const scrollPos = window.scrollY + 100; // Offset
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-            sections.forEach(section => {
-                if (section) {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
-                    if (scrollPos >= top && scrollPos < top + height) {
-                        const id = section.getAttribute('id');
-                        if (id) setActiveSection(id);
-                    }
-                }
-            });
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    const handleClick = (e, href) => {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-            // Smooth scroll via Lenis or native if Lenis captures it
-            target.scrollIntoView({ behavior: 'smooth' });
-            setActiveSection(href.substring(1));
+        if (visible?.target?.id) {
+          setActiveSection(visible.target.id);
         }
-    };
-
-    return (
-        <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
-            className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${scrolled
-                ? "w-[90%] md:w-auto bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg px-2 py-2"
-                : "w-full md:w-auto bg-transparent px-4 py-4"
-                }`}
-        >
-            <ul className="flex items-center justify-center gap-1 md:gap-2">
-                {navLinks.map((link) => (
-                    <li key={link.name}>
-                        <a
-                            href={link.href}
-                            onClick={(e) => handleClick(e, link.href)}
-                            className={`relative px-4 py-2 text-sm md:text-base font-medium transition-colors duration-300 rounded-full block ${activeSection === link.href.substring(1)
-                                ? "text-white"
-                                : "text-gray-400 hover:text-white"
-                                }`}
-                        >
-                            {activeSection === link.href.substring(1) && (
-                                <motion.div
-                                    layoutId="bubble"
-                                    className="absolute inset-0 bg-white/10 dark:bg-white/20 backdrop-blur-lg rounded-full -z-10 border border-white/10 shadow-lg"
-                                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                                />
-                            )}
-                            {link.name}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </motion.nav>
+      },
+      {
+        rootMargin: "-35% 0px -45% 0px",
+        threshold: [0.2, 0.35, 0.5, 0.7],
+      }
     );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      <Motion.aside
+        initial={{ opacity: 0, x: -36 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed left-5 top-1/2 z-50 hidden -translate-y-1/2 lg:block"
+      >
+        <div className="story-panel flex w-[220px] flex-col gap-3 p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <div>
+              <p className="text-[0.68rem] uppercase tracking-[0.36em] text-[color:var(--muted)]">
+                Portfolio
+              </p>
+              <h2 className="mt-2 text-xl font-semibold text-[color:var(--text)]">
+                Indrajit
+              </h2>
+            </div>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] text-[color:var(--accent)]">
+              <HiMiniSparkles />
+            </span>
+          </div>
+
+          {navLinks.map((link) => (
+            <NavButton
+              key={link.href}
+              link={link}
+              activeSection={activeSection}
+            />
+          ))}
+
+          <button
+            type="button"
+            onClick={() => scrollToTarget("#contact")}
+            className="mt-3 inline-flex items-center justify-between rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] px-4 py-3 text-sm font-medium text-[color:var(--text)] transition-transform duration-300 hover:-translate-y-0.5"
+          >
+            Start a project
+            <FiArrowDownRight className="text-base text-[color:var(--accent)]" />
+          </button>
+        </div>
+      </Motion.aside>
+
+      <Motion.nav
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed inset-x-3 bottom-4 z-50 lg:hidden"
+      >
+        <div className="story-panel mx-auto flex max-w-md items-center justify-between gap-1 px-2 py-2">
+          {navLinks.map((link) => (
+            <NavButton
+              key={link.href}
+              link={link}
+              activeSection={activeSection}
+              compact
+            />
+          ))}
+        </div>
+      </Motion.nav>
+    </>
+  );
 };
 
 export default Navbar;
