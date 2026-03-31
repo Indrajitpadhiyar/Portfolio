@@ -1,8 +1,7 @@
 import React from "react";
 import { motion as Motion, useScroll as usePageScroll } from "framer-motion";
-import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar";
-import ThemeToggle from "./components/ThemeToggle";
+import ClickSparks from "./components/ClickSparks";
 import Footer from "./components/Footer";
 import useScroll from "./hooks/useScroll";
 import Hero from "./sections/Hero";
@@ -23,6 +22,8 @@ const Content = () => {
         style={{ scaleX: scrollYProgress }}
       />
 
+      <ClickSparks />
+
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="story-orb story-orb-one" />
         <div className="story-orb story-orb-two" />
@@ -32,7 +33,6 @@ const Content = () => {
       </div>
 
       <Navbar />
-      <ThemeToggle />
 
       <main className="relative z-10 pb-28 lg:pb-20 lg:pl-32">
         <section id="hero">
@@ -61,11 +61,7 @@ const Content = () => {
 };
 
 function App() {
-  return (
-    <ThemeProvider>
-      <Content />
-    </ThemeProvider>
-  );
+  return <Content />;
 }
 
 export default App;

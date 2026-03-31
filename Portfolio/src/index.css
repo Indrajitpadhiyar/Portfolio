@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --bg: #f4ede2;
   --surface: rgba(255, 252, 246, 0.75);
@@ -16,21 +14,10 @@
   --accent-soft: #ef9f58;
   --accent-strong: #6a9b8d;
   --accent-contrast: #fff9f2;
-}
-
-.dark {
-  --bg: #07111f;
-  --surface: rgba(10, 24, 42, 0.64);
-  --surface-soft: rgba(11, 27, 48, 0.54);
-  --surface-strong: rgba(10, 26, 45, 0.88);
-  --text: #edf4ff;
-  --muted: rgba(197, 211, 230, 0.74);
-  --line: rgba(154, 179, 210, 0.15);
-  --line-strong: rgba(154, 179, 210, 0.25);
-  --accent: #7dd3fc;
-  --accent-soft: #a78bfa;
-  --accent-strong: #f59e0b;
-  --accent-contrast: #06111d;
+  --cursor-default:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%23ffffff' stroke='%23000000' stroke-linejoin='round' stroke-width='2.4' d='M5 3v28l8.1-8.15 4.35 11.15 4.85-1.9-4.15-10.8H28.5L5 3z'/%3E%3C/svg%3E");
+  --cursor-pointer:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%23ffffff' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.3' d='M12 4a2.5 2.5 0 0 1 5 0v11h1V6.2a2.5 2.5 0 0 1 5 0V15h1V8a2.5 2.5 0 0 1 5 0v9h1v-4.2a2.5 2.5 0 0 1 5 0V23c0 2.45-.97 4.8-2.7 6.54l-3.92 3.91A9.2 9.2 0 0 1 22.88 36H15.8a7.8 7.8 0 0 1-5.52-2.28l-4.9-4.91a3.22 3.22 0 0 1-.1-4.53 3.22 3.22 0 0 1 4.25-.23L12 26z'/%3E%3C/svg%3E");
 }
 
 @layer base {
@@ -56,6 +43,27 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.45s ease, color 0.35s ease;
+  }
+
+  @media (pointer: fine) {
+    html,
+    body {
+      cursor: var(--cursor-default) 5 3, auto;
+    }
+
+    a,
+    button,
+    [role="button"],
+    label[for],
+    summary {
+      cursor: var(--cursor-pointer) 12 4, pointer;
+    }
+
+    input,
+    textarea,
+    [contenteditable="true"] {
+      cursor: text;
+    }
   }
 
   a {
