@@ -127,7 +127,7 @@ const Hero = () => {
           <div className="story-portrait-frame relative overflow-hidden p-4 sm:p-6">
             <div className="relative overflow-hidden rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--surface-soft)]">
               <img
-                src="/indrajit.png"
+                src="/indrajit.png" 
                 alt="Indrajit portrait"
                 className="h-[440px] w-full object-cover object-top sm:h-[560px]"
               />
