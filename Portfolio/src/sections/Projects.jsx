@@ -9,40 +9,47 @@ const projects = [
     type: "MERN Commerce Experience",
     image: "/bagify.png",
     description:
-      "A storefront experience built to feel fast, clear, and conversion focused while still staying modern and visually polished.",
-
+      "A storefront experience built to feel fast, clear, and conversion-focused while staying modern and visually polished.",
     detail:
-      "Bagify brings frontend presentation and backend practicality together. The build focuses on clean product discovery, structured browsing, and a responsive flow that can support real users instead of only looking good in screenshots.",
-
+      "Bagify brings frontend presentation and backend practicality together. The build focuses on clean product discovery, structured browsing, and a responsive flow that can support real users.",
     tech: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-
     link: "https://bagify-z9wj.onrender.com/",
-
     github: "https://github.com/Indrajitpadhiyar/Bagify.git",
   },
-
   {
     id: 2,
-    title: "Space Exploration 3D Website",
-    type: "Frontend Development",
+    title: "Space Exploration",
+    type: "3D Immersive Website",
     image: "/space.png",
-
-    link: "https://space-4c4h.onrender.com/",
-
-    github: "https://github.com/Indrajitpadhiyar",
-
     description:
-      "A futuristic 3D space-themed website with immersive scroll animations, cinematic visuals, smooth GSAP transitions, interactive planets, and modern UI design. Built with a premium dark aesthetic to create a realistic space exploration experience.",
+      "A futuristic 3D space-themed website with immersive scroll animations, cinematic visuals, and interactive planet elements.",
+    detail:
+      "The Space Exploration 3D Website immerses users in a visually stunning space environment with smooth scroll animations, cinematic visuals, and interactive elements that bring the cosmos to life.",
+    tech: ["React", "GSAP", "Three.js", "Tailwind CSS"],
+    link: "https://space-4c4h.onrender.com/",
+    github: "https://github.com/Indrajitpadhiyar",
+  },
+  {
+    id: 2,
+    title: "Fashion Shop",
+    type: "Luxury Fashion E-Commerce Website",
+    image: "/fasion.png",
+    description:
+      "A modern fashion e-commerce platform featuring dedicated Men and Women collections, premium product showcases, smooth animations, and a visually engaging shopping experience.",
 
     detail:
-      "The Space Exploration 3D Website is a cutting-edge web application that immerses users in a visually stunning space environment. It features smooth scroll animations, cinematic visuals, and interactive elements that bring the cosmos to life.",
+      "Fashion Shop is a premium fashion-focused website designed to showcase modern clothing collections with an elegant and immersive user experience. The platform features dedicated sections for men's and women's fashion, interactive hover effects, smooth transitions, high-quality imagery, and conversion-focused call-to-action elements. Built with performance and responsiveness in mind, the website delivers a seamless browsing experience across desktop, tablet, and mobile devices while maintaining a luxury brand identity.",
 
-    tech: ["React", "GSAP", "Three.js", "Tailwind CSS"],
-
-    color: "bg-[#0F172A]",
-
-    height: "aspect-[3/5]",
-  },
+    tech: [
+      "React",
+      "Tailwind CSS",
+      "Framer Motion",
+      "JavaScript",
+      "Responsive Design"
+    ],
+    link: "https://fashion-s5r1.onrender.com",
+    github: "https://github.com/Indrajitpadhiyar"
+  }
 ];
 
 const ProjectModal = ({ project, onClose }) => {
@@ -50,53 +57,56 @@ const ProjectModal = ({ project, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-[rgba(4,10,20,0.66)] px-4 py-8 backdrop-blur-md"
+      className="fixed inset-0 z-[95] flex items-center justify-center bg-black/60 px-4 py-8 backdrop-blur-md"
       onClick={onClose}
     >
       <Motion.div
-        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+        initial={{ opacity: 0, y: 24, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 18, scale: 0.98 }}
-        transition={{ duration: 0.35 }}
-        className="story-panel relative max-h-[90vh] w-full max-w-4xl overflow-hidden"
-        onClick={(event) => event.stopPropagation()}
+        exit={{ opacity: 0, y: 24, scale: 0.97 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="relative max-h-[90vh] w-full max-w-5xl overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]"
+        onClick={(e) => e.stopPropagation()}
       >
+        {/* Close button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--text)]"
+          className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--black)] text-[var(--white)] transition-transform hover:scale-110"
           aria-label="Close project details"
         >
           <FiX />
         </button>
 
-        <div className="grid max-h-[90vh] overflow-auto lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="relative min-h-[280px]">
+        <div className="grid max-h-[90vh] overflow-auto lg:grid-cols-[1.1fr_0.9fr]">
+          {/* Image */}
+          <div className="relative min-h-[280px] overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
               className="h-full w-full object-cover object-top"
             />
-
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(5,9,18,0.15),rgba(5,9,18,0.5))]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
-          <div className="p-7 sm:p-10">
-            <p className="text-[0.7rem] uppercase tracking-[0.34em] text-[color:var(--accent)]">
+          {/* Details */}
+          <div className="p-8 lg:p-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
               {project.type}
             </p>
-
-            <h3 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)]">
+            <h3
+              className="mt-4 text-4xl font-bold tracking-tight text-[var(--text)]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
               {project.title}
             </h3>
-
-            <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
+            <p className="mt-5 text-base leading-7 text-[var(--text-secondary)]">
               {project.detail}
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-2">
               {project.tech?.map((item) => (
-                <span key={item} className="story-tag">
+                <span key={item} className="tag">
                   {item}
                 </span>
               ))}
@@ -107,17 +117,16 @@ const ProjectModal = ({ project, onClose }) => {
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--accent-contrast)]"
+                className="cta-pill cta-pill-black"
               >
                 Live Preview
                 <FiArrowUpRight />
               </a>
-
               <a
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--text)]"
+                className="cta-pill cta-pill-outline"
               >
                 Source Code
                 <FiGithub />
@@ -134,107 +143,121 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-    <div className="story-section px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-      <div className="mx-auto max-w-7xl">
+    <div className="py-20 lg:py-32">
+      {/* Section Header */}
+      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <Motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="max-w-3xl"
+          className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
         >
-          <span className="story-chip">
-            Chapter 04 / Selected Work
-          </span>
-
-          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl">
-            Real projects, presented with more depth than a simple thumbnail
-            grid.
-          </h2>
-
-          <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-            Each project is framed like a case study preview so the portfolio
-            feels curated instead of rushed.
+          <div>
+            <span className="section-label">Selected Work</span>
+            <h2
+              className="mt-6 max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-[var(--text)] sm:text-5xl"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Real projects, presented with{" "}
+              <span className="italic text-[var(--text-secondary)]">depth</span>{" "}
+              not just thumbnails.
+            </h2>
+          </div>
+          <p className="max-w-md text-base leading-7 text-[var(--text-secondary)] lg:text-right">
+            Each project is framed like a case study — curated instead of rushed.
           </p>
         </Motion.div>
-
-        <div className="mt-12 space-y-6">
-          {projects.map((project, index) => (
-            <Motion.article
-              key={project.id}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.65, delay: index * 0.08 }}
-              className="story-panel overflow-hidden"
-            >
-              <div className="grid gap-0 lg:grid-cols-2">
-                <div
-                  className={`relative min-h-[280px] overflow-hidden sm:min-h-[360px] ${index % 2 === 1 ? "lg:order-2" : ""
-                    }`}
-                >
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="h-full w-full object-cover object-top transition-transform duration-700 hover:scale-[1.03]"
-                  />
-
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.28))]" />
-                </div>
-
-                <div
-                  className={`flex flex-col justify-between p-7 sm:p-10 ${index % 2 === 1 ? "lg:order-1" : ""
-                    }`}
-                >
-                  <div>
-                    <p className="text-[0.7rem] uppercase tracking-[0.34em] text-[color:var(--accent)]">
-                      {project.type}
-                    </p>
-
-                    <h3 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)]">
-                      {project.title}
-                    </h3>
-
-                    <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-                      {project.description}
-                    </p>
-
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {project.tech?.map((item) => (
-                        <span key={item} className="story-tag">
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-10 flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProject(project)}
-                      className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--accent-contrast)]"
-                    >
-                      Open Project
-                      <FiArrowUpRight />
-                    </button>
-
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--text)]"
-                    >
-                      GitHub
-                      <FiGithub />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </Motion.article>
-          ))}
-        </div>
       </div>
 
+      {/* Project Cards */}
+      <div className="mx-auto mt-14 max-w-[1400px] space-y-6 px-6 lg:px-10">
+        {projects.map((project, index) => (
+          <Motion.article
+            key={project.id}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.7, delay: index * 0.1 }}
+            className="group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] transition-all duration-500 hover:border-[var(--line-strong)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)]"
+          >
+            <div
+              className={`grid gap-0 lg:grid-cols-2 ${index % 2 === 1 ? "direction-rtl" : ""
+                }`}
+            >
+              {/* Image */}
+              <div
+                className={`img-reveal relative min-h-[300px] overflow-hidden sm:min-h-[400px] ${index % 2 === 1 ? "lg:order-2" : ""
+                  }`}
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="h-full w-full object-cover object-top"
+                />
+                {/* Hover overlay */}
+                <div
+                  className="project-overlay cursor-hover-target"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <span>View Project</span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div
+                className={`flex flex-col justify-between p-8 lg:p-12 ${index % 2 === 1 ? "lg:order-1" : ""
+                  }`}
+              >
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                    {project.type}
+                  </p>
+                  <h3
+                    className="mt-4 text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl lg:text-5xl"
+                    style={{ fontFamily: "var(--font-display)" }}
+                  >
+                    {project.title}
+                  </h3>
+                  <p className="mt-5 text-base leading-7 text-[var(--text-secondary)] lg:text-lg">
+                    {project.description}
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {project.tech?.map((item) => (
+                      <span key={item} className="tag">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProject(project)}
+                    className="cta-pill cta-pill-black"
+                  >
+                    Open Project
+                    <FiArrowUpRight />
+                  </button>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="cta-pill cta-pill-outline"
+                  >
+                    GitHub
+                    <FiGithub />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Motion.article>
+        ))}
+      </div>
+
+      {/* Modal */}
       <AnimatePresence>
         {selectedProject && (
           <ProjectModal

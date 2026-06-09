@@ -2,21 +2,21 @@ import React, { useEffect, useEffectEvent, useState } from "react";
 import { AnimatePresence, motion as Motion, useReducedMotion } from "framer-motion";
 
 const BURST_LIFETIME_MS = 650;
-const SPARK_COUNT = 12;
+const SPARK_COUNT = 10;
 
 const createBurst = (x, y) => {
   const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const sparks = Array.from({ length: SPARK_COUNT }, (_, index) => {
     const angle = (Math.PI * 2 * index) / SPARK_COUNT + (Math.random() * 0.35 - 0.175);
-    const distance = 28 + Math.random() * 42;
+    const distance = 22 + Math.random() * 36;
 
     return {
       id: `${id}-${index}`,
       x: Math.cos(angle) * distance,
       y: Math.sin(angle) * distance,
       rotation: (angle * 180) / Math.PI,
-      length: 16 + Math.random() * 18,
-      thickness: 2 + Math.random() * 3,
+      length: 12 + Math.random() * 14,
+      thickness: 1.5 + Math.random() * 2,
       scale: 0.85 + Math.random() * 0.6,
       delay: index * 0.008,
     };
@@ -71,19 +71,21 @@ function ClickSparks() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
           >
+            {/* Center flash — monochrome */}
             <Motion.span
-              className="absolute left-0 top-0 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full"
+              className="absolute left-0 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,255,255,0.98) 0%, color-mix(in srgb, var(--accent-soft) 72%, white) 45%, transparent 78%)",
+                  "radial-gradient(circle, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.4) 50%, transparent 78%)",
                 boxShadow:
-                  "0 0 18px color-mix(in srgb, var(--accent) 55%, transparent), 0 0 28px color-mix(in srgb, var(--accent-soft) 40%, transparent)",
+                  "0 0 12px rgba(255,140,0,0.3), 0 0 24px rgba(255,140,0,0.15)",
               }}
               initial={{ scale: 0.25, opacity: 0.95 }}
-              animate={{ scale: 1.8, opacity: 0 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+              animate={{ scale: 2, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
             />
 
+            {/* Sparks — dark lines with subtle lime glow */}
             {burst.sparks.map((spark) => (
               <Motion.span
                 key={spark.id}
@@ -93,8 +95,8 @@ function ClickSparks() {
                   width: spark.length,
                   rotate: spark.rotation,
                   background:
-                    "linear-gradient(90deg, rgba(255,255,255,1) 0%, color-mix(in srgb, var(--accent) 68%, white) 48%, transparent 100%)",
-                  boxShadow: "0 0 12px color-mix(in srgb, var(--accent-soft) 45%, transparent)",
+                    "linear-gradient(90deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.3) 50%, transparent 100%)",
+                  boxShadow: "0 0 8px rgba(255,140,0,0.2)",
                 }}
                 initial={{ x: 0, y: 0, opacity: 1, scaleX: spark.scale }}
                 animate={{
@@ -105,7 +107,7 @@ function ClickSparks() {
                   scaleY: 0.85,
                 }}
                 transition={{
-                  duration: 0.52,
+                  duration: 0.48,
                   delay: spark.delay,
                   ease: [0.16, 1, 0.3, 1],
                 }}

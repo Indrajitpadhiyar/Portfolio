@@ -2,6 +2,7 @@ import React from "react";
 import { motion as Motion, useScroll as usePageScroll } from "framer-motion";
 import Navbar from "./components/Navbar";
 import ClickSparks from "./components/ClickSparks";
+import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 import useScroll from "./hooks/useScroll";
 import Hero from "./sections/Hero";
@@ -16,25 +17,18 @@ const Content = () => {
   const { scrollYProgress } = usePageScroll();
 
   return (
-    <div className="app-shell">
+    <div className="app-shell relative min-h-screen bg-[var(--bg)] text-[var(--text)]">
+      {/* Scroll progress bar */}
       <Motion.div
-        className="fixed inset-x-0 top-0 z-[70] h-1 origin-left bg-[linear-gradient(90deg,var(--accent),var(--accent-soft),var(--accent-strong))]"
+        className="scroll-progress"
         style={{ scaleX: scrollYProgress }}
       />
 
       <ClickSparks />
-
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="story-orb story-orb-one" />
-        <div className="story-orb story-orb-two" />
-        <div className="story-orb story-orb-three" />
-        <div className="story-grid" />
-        <div className="story-noise" />
-      </div>
-
+      <CustomCursor />
       <Navbar />
 
-      <main className="relative z-10 pb-28 lg:pb-20 lg:pl-32">
+      <main>
         <section id="hero">
           <Hero />
         </section>

@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { motion as Motion } from "framer-motion";
-import { FiArrowDownRight } from "react-icons/fi";
-import {
-  HiMiniSparkles,
-  HiOutlineUserCircle,
-  HiOutlineLightBulb,
-  HiOutlineFolder,
-  HiOutlineRocketLaunch,
-  HiOutlineEnvelope,
-} from "react-icons/hi2";
+import { AnimatePresence, motion as Motion } from "framer-motion";
+import { FiChevronDown, FiMenu, FiX } from "react-icons/fi";
 
 const navLinks = [
-  { name: "Intro", href: "#hero", icon: HiMiniSparkles },
-  { name: "Story", href: "#about", icon: HiOutlineUserCircle },
-  { name: "Stack", href: "#skills", icon: HiOutlineLightBulb },
-  { name: "Work", href: "#projects", icon: HiOutlineFolder },
-  { name: "Path", href: "#timeline", icon: HiOutlineRocketLaunch },
-  { name: "Connect", href: "#contact", icon: HiOutlineEnvelope },
+  { name: "HOME", href: "#hero", hasChevron: true },
+  { name: "ABOUT US", href: "#about", hasChevron: false },
+  { name: "SERVICES", href: "#skills", hasChevron: true },
+  { name: "PROJECT", href: "#projects", hasChevron: true },
+  { name: "BLOG", href: "#timeline", hasChevron: true },
+  { name: "CONTACT", href: "#contact", hasChevron: false },
 ];
 
 const scrollToTarget = (href) => {
@@ -25,7 +17,7 @@ const scrollToTarget = (href) => {
 
   if (window.__lenis) {
     window.__lenis.scrollTo(target, {
-      offset: window.innerWidth >= 1024 ? -30 : -16,
+      offset: -80,
       duration: 1.15,
     });
     return;
@@ -34,137 +26,168 @@ const scrollToTarget = (href) => {
   target.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
-const NavButton = ({ link, activeSection, compact = false }) => {
-  const Icon = link.icon;
-  const isActive = activeSection === link.href.slice(1);
-
-  return (
-    <button
-      type="button"
-      onClick={() => scrollToTarget(link.href)}
-      className={`group relative flex items-center gap-3 rounded-full px-4 py-3 text-left transition-all duration-300 ${
-        compact
-          ? "justify-center px-3 py-2.5"
-          : "w-full border border-transparent hover:border-[color:var(--line)]"
-      }`}
-      aria-label={link.name}
-    >
-      {isActive && (
-        <Motion.span
-          layoutId={compact ? "mobile-active-pill" : "desktop-active-pill"}
-          className="absolute inset-0 rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] shadow-[0_18px_60px_rgba(0,0,0,0.18)]"
-          transition={{ type: "spring", stiffness: 260, damping: 28 }}
-        />
-      )}
-      <span
-        className={`relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border text-base transition-colors duration-300 ${
-          isActive
-            ? "border-transparent bg-[color:var(--accent)] text-[color:var(--accent-contrast)]"
-            : "border-[color:var(--line)] bg-[color:var(--surface-soft)] text-[color:var(--text)]/70 group-hover:text-[color:var(--text)]"
-        }`}
-      >
-        <Icon />
-      </span>
-      {!compact && (
-        <span className="relative z-10 flex items-center gap-2">
-          <span className="text-sm font-medium tracking-[0.18em] uppercase text-[color:var(--text)]">
-            {link.name}
-          </span>
-          {isActive && <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent-strong)]" />}
-        </span>
-      )}
-    </button>
-  );
-};
+const LogoIcon = () => (
+  <div className="mr-2.5 grid grid-cols-3 gap-[2.5px] w-[19px] h-[19px]">
+    {[...Array(9)].map((_, i) => (
+      <div key={i} className="bg-[#ff8c00] rounded-[1.2px]" />
+    ))}
+  </div>
+);
 
 const Navbar = () => {
-  const [activeSection, setActiveSection] = useState("hero");
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    const sections = navLinks
-      .map((link) => document.querySelector(link.href))
-      .filter(Boolean);
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 60);
+      setHidden(currentY > lastScrollY && currentY > 300);
+      setLastScrollY(currentY);
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
-        if (visible?.target?.id) {
-          setActiveSection(visible.target.id);
-        }
-      },
-      {
-        rootMargin: "-35% 0px -45% 0px",
-        threshold: [0.2, 0.35, 0.5, 0.7],
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   return (
     <>
-      <Motion.aside
-        initial={{ opacity: 0, x: -36 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed left-5 top-1/2 z-50 hidden -translate-y-1/2 lg:block"
+      <Motion.header
+        initial={{ y: -100 }}
+        animate={{ y: hidden && !menuOpen ? -100 : 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed inset-x-0 top-0 z-[80] transition-all duration-500 ${
+          scrolled
+            ? "bg-[var(--bg)]/90 backdrop-blur-xl border-b border-[var(--line)] shadow-sm"
+            : "bg-transparent"
+        }`}
       >
-        <div className="story-panel flex w-[220px] flex-col gap-3 p-4">
-          <div className="mb-2 flex items-center justify-between">
-            <div>
-              <p className="text-[0.68rem] uppercase tracking-[0.36em] text-[color:var(--muted)]">
-                Portfolio
-              </p>
-              <h2 className="mt-2 text-xl font-semibold text-[color:var(--text)]">
-                Indrajit
-              </h2>
-            </div>
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] text-[color:var(--accent)]">
-              <HiMiniSparkles />
-            </span>
-          </div>
-
-          {navLinks.map((link) => (
-            <NavButton
-              key={link.href}
-              link={link}
-              activeSection={activeSection}
-            />
-          ))}
-
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-[22px] lg:px-10">
+          {/* Logo */}
           <button
-            type="button"
-            onClick={() => scrollToTarget("#contact")}
-            className="mt-3 inline-flex items-center justify-between rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] px-4 py-3 text-sm font-medium text-[color:var(--text)] transition-transform duration-300 hover:-translate-y-0.5"
+            onClick={() => scrollToTarget("#hero")}
+            className="cursor-hover-target flex items-center group"
           >
-            Start a project
-            <FiArrowDownRight className="text-base text-[color:var(--accent)]" />
+            <LogoIcon />
+            <span
+              className="text-[21px] font-extrabold tracking-tight text-[var(--text)] transition-colors duration-300 group-hover:text-[#ff8c00]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Qurifolio
+            </span>
+          </button>
+
+          {/* Desktop Nav Links */}
+          <nav className="hidden items-center gap-7 lg:flex">
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => scrollToTarget(link.href)}
+                className="group flex items-center gap-[3px] text-[11.5px] font-bold tracking-[0.1em] text-[var(--text-secondary)] transition-colors duration-300 hover:text-[var(--text)]"
+              >
+                {link.name}
+                {link.hasChevron && (
+                  <FiChevronDown className="text-[12px] opacity-70 transition-transform duration-300 group-hover:rotate-180" />
+                )}
+              </button>
+            ))}
+          </nav>
+
+          {/* Desktop CTA */}
+          <a
+            href="/resume.pdf"
+            download
+            className="cursor-hover-target hidden items-center justify-center rounded-[4px] bg-black px-[22px] py-[11px] text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-all duration-300 hover:bg-[#ff8c00] lg:inline-flex shadow-sm"
+          >
+            Download CV
+          </a>
+
+          {/* Mobile Hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="cursor-hover-target relative z-[100] inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] lg:hidden"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <FiX className="text-lg text-white" /> : <FiMenu className="text-lg" />}
           </button>
         </div>
-      </Motion.aside>
+      </Motion.header>
 
-      <Motion.nav
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-x-3 bottom-4 z-50 lg:hidden"
-      >
-        <div className="story-panel mx-auto flex max-w-md items-center justify-between gap-1 px-2 py-2">
-          {navLinks.map((link) => (
-            <NavButton
-              key={link.href}
-              link={link}
-              activeSection={activeSection}
-              compact
-            />
-          ))}
-        </div>
-      </Motion.nav>
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <Motion.div
+            initial={{ clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
+            animate={{ clipPath: "circle(150% at calc(100% - 40px) 40px)" }}
+            exit={{ clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="nav-overlay flex flex-col items-start justify-center px-8"
+          >
+            <div className="space-y-4">
+              {navLinks.map((link, index) => (
+                <Motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, x: -40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -40 }}
+                  transition={{
+                    delay: 0.1 + index * 0.05,
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <a
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMenuOpen(false);
+                      setTimeout(() => scrollToTarget(link.href), 400);
+                    }}
+                    className="flex items-baseline"
+                  >
+                    <span
+                      className="mr-3 text-sm font-semibold text-[var(--text-muted)]"
+                      style={{ fontFamily: "var(--font-body)" }}
+                    >
+                      0{index + 1}
+                    </span>
+                    {link.name}
+                  </a>
+                </Motion.div>
+              ))}
+            </div>
+
+            <Motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.45, duration: 0.4 }}
+              className="mt-10"
+            >
+              <a
+                href="/resume.pdf"
+                download
+                className="inline-flex items-center gap-2 rounded-[4px] bg-white px-5 py-3 text-xs font-bold uppercase tracking-[0.1em] text-black transition-colors hover:bg-[#ff8c00] hover:text-white"
+              >
+                Download CV
+              </a>
+            </Motion.div>
+          </Motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

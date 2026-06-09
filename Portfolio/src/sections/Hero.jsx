@@ -1,18 +1,5 @@
 import React, { useRef } from "react";
 import { motion as Motion, useScroll, useTransform } from "framer-motion";
-import { FiArrowDownRight, FiGithub, FiLinkedin } from "react-icons/fi";
-
-const highlights = [
-  "Frontend experiences with motion-first thinking",
-  "Responsive systems that stay polished on every screen",
-  "Interfaces that feel cinematic without losing clarity",
-];
-
-const quickStats = [
-  { value: "02+", label: "Shipped storefronts" },
-  { value: "06", label: "Core tools in daily rotation" },
-  { value: "24/7", label: "Iterations for the right feel" },
-];
 
 const Hero = () => {
   const ref = useRef(null);
@@ -21,163 +8,161 @@ const Hero = () => {
     offset: ["start start", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  // Parallax / Scroll Animations for premium depth
+  const asteriskY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const asteriskRotate = useTransform(scrollYProgress, [0, 1], [25, 45]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 20]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
 
   return (
     <div
       ref={ref}
-      className="relative flex min-h-screen items-center px-5 pb-20 pt-28 sm:px-8 lg:px-12 lg:pt-16"
+      className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-[#f4eee8] pt-20"
     >
-      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-        <Motion.div
-          style={{ y: contentY }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl"
+      {/* ─── Giant Orange Asterisk Shape (Background Ornament) ─── */}
+      <Motion.div
+        style={{ y: asteriskY, rotate: asteriskRotate }}
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 0.9, scale: 1 }}
+        transition={{ delay: 0.5, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute left-[15%] md:left-[24%] top-[50%] -translate-y-1/2 z-[1] select-none pointer-events-none"
+      >
+        <svg
+          width="420"
+          height="420"
+          viewBox="0 0 100 100"
+          fill="none"
+          className="text-[#ff8c00] w-[260px] h-[260px] sm:w-[360px] sm:h-[360px] lg:w-[420px] lg:h-[420px]"
         >
-          <span className="story-chip">
-            Chapter 01
-            <span className="mx-2 text-[color:var(--muted)]">/</span>
-            Building stories with code
-          </span>
+          <g transform="rotate(25 50 50)">
+            <rect x="42" y="5" width="16" height="90" rx="8" fill="currentColor" />
+            <rect x="5" y="42" width="90" height="16" rx="8" fill="currentColor" />
+            <rect x="42" y="5" width="16" height="90" rx="8" fill="currentColor" transform="rotate(45 50 50)" />
+            <rect x="42" y="5" width="16" height="90" rx="8" fill="currentColor" transform="rotate(-45 50 50)" />
+          </g>
+        </svg>
+      </Motion.div>
 
-          <h1 className="mt-6 max-w-4xl text-5xl leading-[0.95] font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-6xl lg:text-[6.7rem]">
-            Portfolios should
-            <span
-              className="block italic text-[color:var(--accent)]"
-              style={{ fontFamily: "Fraunces, serif" }}
-            >
-              unfold,
+      {/* ─── Content Wrapper ─── */}
+      <div className="relative flex flex-col justify-center items-center w-full h-full max-w-[1400px] px-6">
+
+        {/* ─── Massive Text Container ─── */}
+        {/* z-index is removed here to allow global stacking context between layers */}
+        <div className="relative w-full flex flex-col items-center justify-center mb-10">
+
+          {/* Lower Text Layer (Filled Black) - Behind Portrait (Stacks at default z-index) */}
+          <Motion.div
+            style={{ y: textY }}
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-text-line flex flex-col items-center text-center select-none relative z-10"
+          >
+            <span>I'M A FULLSTACK</span>
+            <span>DEVELOPER</span>
+          </Motion.div>
+
+          {/* Upper Text Layer (White Outline) - In Front of Portrait */}
+          <Motion.div
+            style={{ y: textY }}
+            className="absolute inset-0 flex flex-col items-center text-center select-none pointer-events-none z-30"
+          >
+            <span className="hero-text-line opacity-0">I'M A FULLSTACK</span>
+            <span className="hero-text-line">
+              <span className="opacity-0">DE</span>
+              <span className="text-stroke-white">VELOP</span>
+              <span className="opacity-0">ER</span>
             </span>
-            not just load.
-          </h1>
+          </Motion.div>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--muted)] sm:text-xl">
-            I am Indrajit, a fullstack developer shaping immersive interfaces for
-            brands, products, and local businesses. I combine sharp visual rhythm,
-            clean implementation, and motion that gives each section a purpose.
-          </p>
+        </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            {highlights.map((item) => (
-              <span key={item} className="story-tag">
-                {item}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={() => window.__lenis?.scrollTo("#projects", { offset: -20, duration: 1.1 })}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.24em] text-[color:var(--accent-contrast)] transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              Explore work
-              <FiArrowDownRight />
-            </button>
-
-            <div className="flex items-center gap-3">
-              <a
-                href="https://github.com/Indrajitpadhiyar"
-                target="_blank"
-                rel="noreferrer"
-                className="story-icon-button"
-                aria-label="GitHub"
-              >
-                <FiGithub />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/indajit-padhiyar-6901083a8/"
-                target="_blank"
-                rel="noreferrer"
-                className="story-icon-button"
-                aria-label="LinkedIn"
-              >
-                <FiLinkedin />
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-14 grid gap-4 sm:grid-cols-3">
-            {quickStats.map((stat) => (
-              <div key={stat.label} className="story-panel p-5">
-                <p className="text-3xl font-semibold tracking-[-0.04em] text-[color:var(--text)]">
-                  {stat.value}
-                </p>
-                <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Motion.div>
-
+        {/* ─── Portrait Image (B&W) ─── */}
+        {/* Positioned at z-20 (sandwiched between solid text at 0 and outlined text at z-30) */}
         <Motion.div
-          style={{ y: imageY }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto w-full max-w-[560px]"
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none select-none flex justify-center items-end"
+          style={{
+            width: "clamp(940px, 58vw, 1200px)",
+            bottom: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            y: imageY,
+            scale: imageScale,
+            WebkitMaskImage: "linear-gradient(to top, transparent 0%, black 15%)",
+            maskImage: "linear-gradient(to top, transparent 0%, black 15%)",
+          }}
         >
-          <div className="absolute -left-8 top-10 h-32 w-32 rounded-full bg-[color:var(--accent)]/20 blur-3xl" />
-          <div className="absolute -right-8 bottom-6 h-36 w-36 rounded-full bg-[color:var(--accent-soft)]/25 blur-3xl" />
+          {/* Note: We use WebkitMaskImage to smoothly fade the bottom of the photo into the background */}
+          <img
+            src="/indrajit.png"
+            alt="Indrajit Padhiyar"
+            className="h-auto w-full object-cover object-top filter grayscale contrast-[1.08] brightness-[1.02]"
+            style={{
+              dropShadow: "0 25px 50px rgba(0,0,0,0.15)",
+              WebkitMaskImage: "linear-gradient(to top, transparent 0%, black 18%)",
+              maskImage: "linear-gradient(to top, transparent 0%, black 18%)",
+            }}
+          />
+        </Motion.div>
 
-          <div className="story-portrait-frame relative overflow-hidden p-4 sm:p-6">
-            <div className="relative overflow-hidden rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--surface-soft)]">
-              <img
-                src="/indrajit.png" 
-                alt="Indrajit portrait"
-                className="h-[440px] w-full object-cover object-top sm:h-[560px]"
+        {/* ─── Rotating Circular Scroll Badge ─── */}
+        <Motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[35] flex items-center justify-center w-[104px] h-[104px] md:w-[120px] md:h-[120px] cursor-pointer"
+          onClick={() => {
+            const target = document.querySelector("#about");
+            if (target) {
+              if (window.__lenis) {
+                window.__lenis.scrollTo(target, { offset: -80, duration: 1.1 });
+              } else {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }}
+        >
+          {/* Rotating text */}
+          <div className="absolute inset-0 animate-spin-slow">
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+              <path
+                id="badgeTextPath"
+                d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+                fill="none"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(3,7,18,0.05)_55%,rgba(3,7,18,0.38))]" />
-            </div>
-
-            <Motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.55 }}
-              className="story-floating-card left-0 top-6 sm:-left-10"
+              <text className="text-[7.2px] font-bold tracking-[0.24em] fill-[#0a0a0a] uppercase">
+                <textPath href="#badgeTextPath" startOffset="0%">
+                  • scroll down • scroll down • scroll down
+                </textPath>
+              </text>
+            </svg>
+          </div>
+          {/* Center orange circle with mouse icon */}
+          <div className="w-[44px] h-[44px] md:w-[48px] md:h-[48px] rounded-full bg-[#ff8c00] flex items-center justify-center z-10 shadow transition-transform duration-300 hover:scale-115">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <p className="text-[0.62rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                Current focus
-              </p>
-              <p className="mt-2 text-lg font-medium text-[color:var(--text)]">
-                Animated product UI
-              </p>
-            </Motion.div>
-
-            <Motion.div
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.7 }}
-              className="story-floating-card right-0 top-1/2 sm:-right-10"
-            >
-              <p className="text-[0.62rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                Based in
-              </p>
-              <p className="mt-2 text-lg font-medium text-[color:var(--text)]">
-                India, building for the web
-              </p>
-            </Motion.div>
-
-            <Motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.82 }}
-              className="story-floating-card bottom-0 left-8 right-8 sm:bottom-4 sm:left-12 sm:right-12"
-            >
-              <p className="text-[0.62rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                Approach
-              </p>
-              <p className="mt-2 text-lg font-medium text-[color:var(--text)]">
-                Strong layout, clear pacing, and motion that supports the story.
-              </p>
-            </Motion.div>
+              <rect x="5" y="2" width="14" height="20" rx="7" />
+              <line x1="12" y1="6" x2="12" y2="10" />
+            </svg>
           </div>
         </Motion.div>
+
       </div>
+
+      {/* ─── Bottom Fade Gradient (Transitions smoothly into next section) ─── */}
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#f4eee8] via-[#f4eee8]/80 to-transparent pointer-events-none z-[25]" />
     </div>
   );
 };

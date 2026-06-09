@@ -1,24 +1,21 @@
 import React from "react";
 import { motion as Motion } from "framer-motion";
-import { FiArrowUpRight, FiGithub, FiLinkedin } from "react-icons/fi";
+import { FiArrowUpRight, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { BsTwitterX } from "react-icons/bs";
 
-const links = [
+const socials = [
   {
-    title: "LinkedIn",
-    copy: "Best place for project conversations and professional contact.",
+    name: "LinkedIn",
     href: "https://www.linkedin.com/in/indajit-padhiyar-6901083a8/",
     icon: FiLinkedin,
   },
   {
-    title: "GitHub",
-    copy: "Explore source code, experiments, and working builds.",
+    name: "GitHub",
     href: "https://github.com/Indrajitpadhiyar",
     icon: FiGithub,
   },
   {
-    title: "X / Twitter",
-    copy: "A lighter channel for updates, thoughts, and creative energy.",
+    name: "X / Twitter",
     href: "https://x.com/indajitpadhiyar",
     icon: BsTwitterX,
   },
@@ -26,77 +23,82 @@ const links = [
 
 const Contact = () => {
   return (
-    <div className="story-section px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-      <div className="mx-auto max-w-7xl">
+    <div className="py-20 lg:py-32">
+      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+        {/* Full-width CTA block */}
         <Motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="story-panel relative overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16"
+          className="relative overflow-hidden rounded-3xl bg-[var(--black)] px-8 py-16 text-center sm:px-12 sm:py-20 lg:px-20 lg:py-28"
         >
-          <div className="absolute -right-16 top-0 h-56 w-56 rounded-full bg-[color:var(--accent)]/15 blur-3xl" />
-          <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-[color:var(--accent-soft)]/20 blur-3xl" />
+          {/* Background accent glow */}
+          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[var(--accent)]/20 blur-[120px]" />
+          <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-[var(--accent)]/15 blur-[120px]" />
 
-          <div className="relative grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-end">
-            <div className="max-w-3xl">
-              <span className="story-chip">Final Chapter / Connect</span>
-              <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl lg:text-6xl">
-                If the product needs more presence, let's build the next scene.
-              </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--muted)]">
-                I am open to internships, freelance work, and collaborations where
-                frontend craft, storytelling, and strong user-facing design matter.
-              </p>
+          <div className="relative">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-white/40">
+              <span className="inline-block h-px w-6 bg-white/30" />
+              Get in touch
+              <span className="inline-block h-px w-6 bg-white/30" />
+            </span>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="https://www.linkedin.com/in/indajit-padhiyar-6901083a8/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--accent-contrast)]"
-                >
-                  Start on LinkedIn
-                  <FiArrowUpRight />
-                </a>
-                <button
-                  type="button"
-                  onClick={() => window.__lenis?.scrollTo("#hero", { offset: 0, duration: 1.1 })}
-                  className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--text)]"
-                >
-                  Back to top
-                </button>
-              </div>
+            <h2
+              className="mx-auto mt-6 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Let's build the{" "}
+              <span className="italic text-[var(--accent)]">next scene</span>{" "}
+              together.
+            </h2>
+
+            <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
+              I'm open to internships, freelance work, and collaborations where
+              frontend craft, storytelling, and strong user-facing design matter.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href="https://www.linkedin.com/in/indajit-padhiyar-6901083a8/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-sm font-bold text-[var(--black)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,140,0,0.35)]"
+              >
+                Start on LinkedIn
+                <FiArrowUpRight className="text-base" />
+              </a>
+              <button
+                type="button"
+                onClick={() =>
+                  window.__lenis?.scrollTo("#hero", { offset: 0, duration: 1.1 })
+                }
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-white/40 hover:bg-white/5"
+              >
+                Back to top
+              </button>
             </div>
 
-            <div className="grid gap-4">
-              {links.map((link, index) => {
-                const Icon = link.icon;
-
+            {/* Social Icons */}
+            <div className="mt-12 flex items-center justify-center gap-4">
+              {socials.map((social, index) => {
+                const Icon = social.icon;
                 return (
-                    <Motion.a
-                      key={link.title}
-                      href={link.href}
-                      target="_blank"
+                  <Motion.a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
                     rel="noreferrer"
-                    initial={{ opacity: 0, y: 18 }}
+                    initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.45, delay: index * 0.08 }}
-                    className="story-panel flex items-start justify-between gap-4 p-5 transition-transform duration-300 hover:-translate-y-1"
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + index * 0.08, duration: 0.5 }}
+                    className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white/50 transition-all duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    aria-label={social.name}
                   >
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.28em] text-[color:var(--accent)]">
-                        {link.title}
-                      </p>
-                      <p className="mt-3 max-w-md text-base leading-7 text-[color:var(--muted)]">
-                        {link.copy}
-                      </p>
-                    </div>
-                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface-soft)] text-[color:var(--accent)]">
-                      <Icon />
-                    </span>
-                    </Motion.a>
+                    <Icon className="text-lg" />
+                  </Motion.a>
                 );
               })}
             </div>

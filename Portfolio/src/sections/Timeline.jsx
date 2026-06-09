@@ -4,92 +4,112 @@ import { motion as Motion, useScroll, useTransform } from "framer-motion";
 const milestones = [
   {
     year: "2023",
-    title: "Started with the frontend basics",
-    description: "Learned HTML, CSS, and JavaScript in college and built the first foundation for web work.",
+    title: "The Foundation",
+    description:
+      "Learned HTML, CSS, and JavaScript in college and built the first foundation for web work.",
+    color: "#e8ff47",
   },
   {
     year: "2024",
-    title: "Moved into interface building",
-    description: "Focused on turning design ideas into clean, responsive interfaces with stronger visual polish.",
+    title: "Interface Building",
+    description:
+      "Focused on turning design ideas into clean, responsive interfaces with stronger visual polish.",
+    color: "#c8df20",
   },
   {
     year: "2025",
-    title: "Built projects for local business needs",
-    description: "Worked on commerce-oriented experiences and learned how real product priorities shape the UI.",
+    title: "Real Products",
+    description:
+      "Built commerce experiences for local businesses. Learned how real product priorities shape the UI.",
+    color: "#a0b818",
   },
   {
     year: "2026",
-    title: "Sharpening the storytelling style",
-    description: "Pushing my portfolio and product work toward more cinematic presentation and stronger interaction design.",
+    title: "Storytelling Style",
+    description:
+      "Pushing toward more cinematic presentation and stronger interaction design in every project.",
+    color: "#88a010",
   },
 ];
 
 const Timeline = () => {
-  const ref = useRef(null);
+  const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start center", "end center"],
+    target: containerRef,
+    offset: ["start end", "end start"],
   });
 
-  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const lineWidth = useTransform(scrollYProgress, [0.1, 0.8], ["0%", "100%"]);
 
   return (
-    <div ref={ref} className="story-section px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+    <div ref={containerRef} className="py-20 lg:py-32">
+      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+        {/* Header */}
         <Motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="lg:sticky lg:top-24 lg:self-start"
+          className="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
         >
-          <span className="story-chip">Chapter 05 / Journey</span>
-          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl">
-            The path is still early, but the direction is getting sharper.
-          </h2>
-          <p className="mt-5 max-w-lg text-lg leading-8 text-[color:var(--muted)]">
-            My timeline is less about titles and more about momentum: learning,
-            building, and steadily improving the quality of the experience.
+          <div>
+            <span className="section-label">Journey</span>
+            <h2
+              className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight text-[var(--text)] sm:text-5xl"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              The path is still early, but the direction is{" "}
+              <span className="italic text-[var(--text-secondary)]">
+                getting sharper.
+              </span>
+            </h2>
+          </div>
+          <p className="max-w-md text-base leading-7 text-[var(--text-secondary)] lg:text-right">
+            Less about titles, more about momentum — learning, building, and steadily
+            improving.
           </p>
         </Motion.div>
 
-        <div className="relative pl-8 sm:pl-10">
-          <div className="absolute bottom-0 left-2 top-0 w-px bg-[color:var(--line)] sm:left-3" />
+        {/* Timeline Progress Line */}
+        <div className="relative mb-10">
+          <div className="h-px w-full bg-[var(--line)]" />
           <Motion.div
-            style={{ scaleY: lineScale, originY: 0 }}
-            className="absolute bottom-0 left-2 top-0 w-px bg-[linear-gradient(180deg,var(--accent),var(--accent-soft),transparent)] sm:left-3"
+            style={{ width: lineWidth }}
+            className="absolute left-0 top-0 h-px bg-[var(--black)]"
           />
+        </div>
 
-          <div className="space-y-6">
-            {milestones.map((item, index) => (
-              <Motion.article
-                key={item.year}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                className="story-panel relative p-6 sm:p-8"
+        {/* Timeline Cards */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {milestones.map((item, index) => (
+            <Motion.article
+              key={item.year}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="card group relative overflow-hidden p-6 lg:p-8"
+            >
+              {/* Accent dot */}
+              <div
+                className="absolute -top-3 left-6 h-6 w-6 rounded-full border-4 border-[var(--bg)] transition-transform duration-300 group-hover:scale-125"
+                style={{ background: item.color }}
+              />
+
+              <p
+                className="mt-3 text-5xl font-bold tracking-tight text-[var(--text)]/10 lg:text-6xl"
+                style={{ fontFamily: "var(--font-display)" }}
               >
-                <span className="absolute -left-[33px] top-8 inline-flex h-5 w-5 items-center justify-center rounded-full border border-[color:var(--line-strong)] bg-[color:var(--surface-strong)] sm:-left-[41px]">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--accent)]" />
-                </span>
-
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <span className="text-sm uppercase tracking-[0.34em] text-[color:var(--accent)]">
-                    {item.year}
-                  </span>
-                  <div className="max-w-2xl">
-                    <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[color:var(--text)]">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-base leading-8 text-[color:var(--muted)]">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </Motion.article>
-            ))}
-          </div>
+                {item.year}
+              </p>
+              <h3 className="mt-4 text-lg font-semibold tracking-tight text-[var(--text)]">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                {item.description}
+              </p>
+            </Motion.article>
+          ))}
         </div>
       </div>
     </div>
